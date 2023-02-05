@@ -53,8 +53,3 @@ int CalcPower(int num, int x) {
         }
     }
 }
-
-void JoinThreads(vector<thread> threads) {
-    
-}
-

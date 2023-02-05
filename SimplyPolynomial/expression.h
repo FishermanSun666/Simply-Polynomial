@@ -3,44 +3,48 @@
 #include<vector>
 #include <mutex>
 
+#include "tools.h"
+#include "file.h"
+#include "error_code.h"
+
 using namespace std;
 
 const enum {
 	SIMPLE_TERM_MIN_OUTPUT = 3,
 	MAX_POWER = 4,
-	NUM_TERMS = 5,
+	MAX_TERMS = 5,
 	MAX_COEF = 9,
 	MIN_COEF = -9,
 };
 
-void InitModules();
+void InitExamples();
 
 class Expression {
 	friend class OneTermExpression;
 	friend class TwoTermExpression;
 private:
 	int terms;
-	int coef[NUM_TERMS] = {};
+	int coef[MAX_TERMS] = {};
 	vector<int> output;
 protected:
-	void setCoef(int i, int a);
-	bool test(int sample[NUM_TERMS]);
-	bool findOutCoefs(int sample[NUM_TERMS], int coef_num, int index);
-	bool findOutCoefs(int index, int need_coefs, int sample[NUM_TERMS]);
+	void SetCoef(int i, int a);
+	bool tryVerify(int sample[MAX_TERMS]);
+	bool findOutCoefs(int sample[MAX_TERMS], int coef_num, int index);
+	bool findOutCoefs(int index, int need_coefs, int sample[MAX_TERMS]);
 public:
 	Expression() {}
-	Expression(int arr[MAX_POWER]);
+	Expression(int arr[MAX_TERMS]);
 	Expression(int terms, string str);
 	Expression(int terms, vector<int> output);
 	~Expression() {}
 	void PrintExpression();
 	string PrintOutPut();
 	void WriteOutPut();
-	void MakeOutPut();
-	void Calculate(int start, int end);
-	void FindOut();
-	bool FinishFindout();
-	//void SolveModule(char key, int terms);
+	void CreateOutPutSeq();
+	void OutPut(int start, int end);
+	void FindOutCoefs();
+	void OperateExpression();
+	bool CheckComplete();
 	virtual void Solve();
 };
 
@@ -62,5 +66,10 @@ public:
 	void Solve();
 };
 
-int CalcExpression(int coef[NUM_TERMS], int x);
-void SolveModules();
+int CalcExpression(int coef[MAX_TERMS], int x);
+
+void SolveExamples();
+
+void MakeExpression();
+
+void ReadExpression();

@@ -11,16 +11,17 @@ fstream g_file;
 mutex file_mtx;
 string g_file_path = "test.txt";
 
-void SaveToFile(vector<int> buff) {
+//Write the calculated expressions to a file.
+//@param buff - Output of expression
+bool WriteDownOutput(vector<int> buff) {
 	if (0 == buff.size()) {
-		throw false;
-		return;
+		return false;
 	}
 	file_mtx.lock();
 	g_file.open(g_file_path, ios::out | ios::app);
 	if (!g_file.is_open()) {
-		throw false;
-		return;
+		file_mtx.unlock();
+		return false;
 	}
 	for (auto it = buff.begin(); it != buff.end(); it++) {
 		if (it != buff.begin()) {
@@ -32,14 +33,17 @@ void SaveToFile(vector<int> buff) {
 	g_file.close();
 	file_mtx.unlock();
 	cout << "save finished." << endl;
+	return true;
 }
 
- void ReadFile(vector<string> &outputs) {
+//Reads files whom contents are the output of an expression.
+//@param outputs - buffer
+ bool ReadOutputFile(vector<string> &outputs) {
 	file_mtx.lock();
 	g_file.open(g_file_path, ios::in);
 	if (!g_file.is_open()) {
-		throw false;
-		return;
+		file_mtx.unlock();
+		return false;
 	}
 	string buff;
 	while(getline(g_file, buff)) {
@@ -47,5 +51,5 @@ void SaveToFile(vector<int> buff) {
 	}
 	g_file.close();
 	file_mtx.unlock();
-	return ;
+	return true ;
 }
