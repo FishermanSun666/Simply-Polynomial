@@ -11,7 +11,7 @@ using namespace std;
 
 const enum {
 	SIMPLE_TERM_MIN_OUTPUT = 3,
-	MAX_POWER = 4,
+	MAX_POWER = 4, 
 	MAX_TERMS = 5,
 	MAX_COEF = 9,
 	MIN_COEF = -9,
